@@ -1,0 +1,21 @@
+import numpy as np
+import matplotlib.pyplot as plt
+def createChirpSignal(samplingrate, duration, freqfrom, freqto, linear):
+    # returns the chirp signal as list or 1D-array
+    # TODO
+    t = np.linspace(0, duration, int(samplingrate * duration))
+    if linear:
+        k = (freqto - freqfrom) / duration
+        phase = 2 * np.pi * (freqfrom * t + 0.5 * k * t **2)
+    else:
+        f_ratio = freqto / freqfrom
+        phase = 2 * np.pi * freqfrom * ((f_ratio ** (t / duration) - 1) / np.log(f_ratio))
+    signal = np.sin(phase)
+
+    plt.plot(t, signal)
+    plt.xlabel('Time (s)')
+    plt.ylabel('Amplitude')
+    plt.title('Chirp Signal')
+    plt.show()
+
+    return signal
